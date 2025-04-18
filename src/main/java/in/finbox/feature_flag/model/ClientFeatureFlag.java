@@ -8,18 +8,24 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Entity(name = "feature_flag")
-@Data
+@Entity(name = "client_feature_flags")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class FeatureFlag {
+public class ClientFeatureFlag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String name;
+    @ManyToOne
+    private Client client;
 
-    private String description;
+    @ManyToOne
+    private FeatureFlag featureFlag;
+
+    private Boolean status;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, insertable = false)
