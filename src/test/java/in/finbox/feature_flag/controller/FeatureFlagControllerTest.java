@@ -46,7 +46,7 @@ class FeatureFlagControllerTest {
         mockMvc.perform(post("/flags/dependency")
                         .param("parent", "parent")
                         .param("child", "child"))
-                .andExpect(status().isOk());
+                .andExpect(status().isAccepted());
     }
 
     @Test
@@ -57,7 +57,7 @@ class FeatureFlagControllerTest {
                         .param("clientId", "1")
                         .param("flag", "flag1")
                         .param("status", "true"))
-                .andExpect(status().isOk());
+                .andExpect(status().isAccepted());
     }
 
     @Test
@@ -91,7 +91,7 @@ class FeatureFlagControllerTest {
         );
         Mockito.when(featureFlagService.getAllFlags()).thenReturn(flags);
 
-        mockMvc.perform(get("/flags"))
+        mockMvc.perform(get("/flags/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("flag1"))
                 .andExpect(jsonPath("$[1].name").value("flag2"));

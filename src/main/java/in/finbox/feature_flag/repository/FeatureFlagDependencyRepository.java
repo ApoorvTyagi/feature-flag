@@ -9,4 +9,5 @@ import java.util.List;
 public interface FeatureFlagDependencyRepository extends JpaRepository<FeatureFlagDependency, Long> {
     List<FeatureFlagDependency> findByParentFlag(FeatureFlag parent);
     List<FeatureFlagDependency> findByChildFlag(FeatureFlag child);
+    boolean existsByParentFlagAndChildFlag(FeatureFlag parentFlag, FeatureFlag childFlag);
 }

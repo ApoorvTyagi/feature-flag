@@ -31,7 +31,15 @@ public class FeatureFlagService {
                 HttpStatus.NOT_FOUND, "Parent flag not found"));
         FeatureFlag childFlag = flagRepo.findByName(child).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Child flag not found"));
-        dependencyRepo.save(FeatureFlagDependency.builder().parentFlag(parentFlag).childFlag(childFlag).build());
+        boolean exists = dependencyRepo.existsByParentFlagAndChildFlag(parentFlag, childFlag);
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Dependency already exists between parent and child");
+        }
+
+        dependencyRepo.save(FeatureFlagDependency.builder()
+                .parentFlag(parentFlag)
+                .childFlag(childFlag)
+                .build());
     }
 
     @Transactional

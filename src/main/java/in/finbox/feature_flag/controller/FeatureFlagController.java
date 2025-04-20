@@ -3,6 +3,7 @@ package in.finbox.feature_flag.controller;
 import in.finbox.feature_flag.model.FeatureFlag;
 import in.finbox.feature_flag.service.FeatureFlagService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +20,16 @@ public class FeatureFlagController {
     }
 
     @PostMapping("/dependency")
-    public void addDependency(@RequestParam String parent, @RequestParam String child) {
+    public ResponseEntity<Void> addDependency(@RequestParam String parent, @RequestParam String child) {
         service.addDependency(parent, child);
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/set")
-    public void setFlag(@RequestParam Long clientId, @RequestParam String flag, @RequestParam boolean status) {
+    public ResponseEntity<Void> setFlag(@RequestParam Long clientId, @RequestParam String flag,
+                                        @RequestParam boolean status) {
         service.setFlagStatus(clientId, flag, status);
+        return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/status")
@@ -38,7 +42,7 @@ public class FeatureFlagController {
         return service.getEnabledFlags(clientId);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<FeatureFlag> getAll() {
         return service.getAllFlags();
     }
