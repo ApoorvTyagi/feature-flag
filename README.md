@@ -75,6 +75,7 @@ mvn test
 
 ### Run specific test class:
 
+Example if you want to run `FeatureFlagControllerTest.java`
 ```
 mvn -Dtest=FeatureFlagControllerTest test
 ```
