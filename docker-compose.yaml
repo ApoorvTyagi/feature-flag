@@ -3,7 +3,7 @@ version: "3.8"
 services:
   mysql:
     image: mysql:8.0
-    container_name: feature_flag_mysql_another
+    container_name: feature_flag_mysql
     ports:
       - "3306:3306"
     environment:
