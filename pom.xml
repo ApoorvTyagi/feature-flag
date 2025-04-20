@@ -54,10 +54,6 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -119,18 +115,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>10.17.0</version>
-				<configuration>
-					<user>root</user>
-					<password>password</password>
-					<schemas>
-						<schema>featureflags</schema>
-					</schemas>
-				</configuration>
 			</plugin>
 
 		</plugins>
