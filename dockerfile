@@ -19,4 +19,4 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Run the Spring Boot app
-CMD ["java", "-jar", "target/feature-flag-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/feature_flag-0.0.1-SNAPSHOT.jar"]
