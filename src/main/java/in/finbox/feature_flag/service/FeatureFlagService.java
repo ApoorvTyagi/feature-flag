@@ -3,8 +3,10 @@ package in.finbox.feature_flag.service;
 import in.finbox.feature_flag.model.*;
 import in.finbox.feature_flag.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -25,16 +27,20 @@ public class FeatureFlagService {
     }
 
     public void addDependency(String parent, String child) {
-        FeatureFlag parentFlag = flagRepo.findByName(parent).orElseThrow();
-        FeatureFlag childFlag = flagRepo.findByName(child).orElseThrow();
+        FeatureFlag parentFlag = flagRepo.findByName(parent).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Parent flag not found"));
+        FeatureFlag childFlag = flagRepo.findByName(child).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Child flag not found"));
         dependencyRepo.save(FeatureFlagDependency.builder().parentFlag(parentFlag).childFlag(childFlag).build());
     }
 
     @Transactional
     public void setFlagStatus(Long clientId, String flagName, boolean status) {
-        Client client = clientRepo.findById(clientId).orElseThrow();
-        FeatureFlag flag = flagRepo.findByName(flagName).orElseThrow();
-        if (!status) {
+        Client client = clientRepo.findById(clientId).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Client not found"));
+        FeatureFlag flag = flagRepo.findByName(flagName).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Flag not found"));
+        if (!status) { // Setting status to false
             List<FeatureFlagDependency> children = dependencyRepo.findByParentFlag(flag);
             for (FeatureFlagDependency dep : children) {
                 setFlagStatus(clientId, dep.getChildFlag().getName(), false);
@@ -45,7 +51,8 @@ public class FeatureFlagService {
                 FeatureFlag parentFlag = dep.getParentFlag();
                 Optional<ClientFeatureFlag> cff = clientFlagRepo.findByClientAndFeatureFlag(client, parentFlag);
                 if (cff.isEmpty() || !Boolean.TRUE.equals(cff.get().getStatus())) {
-                    throw new RuntimeException("Parent flag must be ON before enabling " + flag.getName());
+                    throw new ResponseStatusException(HttpStatus.PRECONDITION_REQUIRED,
+                            "Parent flag must be ON before enabling " + flag.getName());
                 }
             }
         }

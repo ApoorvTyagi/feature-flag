@@ -30,7 +30,8 @@ class ClientControllerTest {
     private ClientService clientService;
 
     @Test
-    void createClient_returns201AndClientData_whenValidRequest() throws Exception {
+    @DisplayName("Should return 200 with client id when client name is given")
+    void createClient_returns200AndClientData_whenValidRequest() throws Exception {
         Client dummyClient = Client.builder()
                 .id(1L)
                 .name("Test Client")
@@ -48,6 +49,7 @@ class ClientControllerTest {
     }
 
     @Test
+    @DisplayName("Should return 400 when client name is not given")
     void createClient_returns400_whenNameMissing() throws Exception {
         mockMvc.perform(post("/clients"))
                 .andExpect(status().isBadRequest());

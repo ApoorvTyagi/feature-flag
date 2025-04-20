@@ -18,18 +18,18 @@ This project is a Feature Flag management API built with Spring Boot, MySQL, Fly
 - Client Feature Flag
 ---
 
-## 🛠️ API Endpoints
+## API Endpoints
 
-| Method | Endpoint              | Description                            |
-|--------|-----------------------|----------------------------------------|
-| POST   | `/clients`            | Create a client                        |
-| GET    | `/clients?id={id}`    | Fetch a client                         |
-| POST   | `/flags/create`       | Create a new feature flag              |
-| POST   | `/flags/dependency`   | Add parent-child flag dependency       |
-| POST   | `/flags/set`          | Enable/disable a flag for a client     |
-| GET    | `/flags/status`       | Get status of a specific flag          |
-| GET    | `/flags/enabled`      | Get all enabled flags for a client     |
-| GET    | `/flags`              | Get all flags in system                |
+| Method | Endpoint                                              | Description                            |
+|--------|-------------------------------------------------------|----------------------------------------|
+| POST   | `/clients?name={name}`                                | Create a client                        |
+| GET    | `/clients?id={id}`                                    | Fetch a client                         |
+| POST   | `/flags/create?name={name}&description={description}` | Create a new feature flag              |
+| POST   | `/flags/dependency?parent={name}&child={name}`        | Add parent-child flag dependency       |
+| POST   | `/flags/setclientId={id}&flag={name}&status={status}` | Enable/disable a flag for a client     |
+| GET    | `/flags/status?clientId={id}&flag={name}`             | Get status of a specific flag          |
+| GET    | `/flags/enabled?clientId={id}`                        | Get all enabled flags for a client     |
+| GET    | `/flags/all`                                          | Get all flags in system                |
 
 ---
 
@@ -43,7 +43,7 @@ This project is a Feature Flag management API built with Spring Boot, MySQL, Fly
 
 ---
 
-## ⚙️ Running the Application
+## Running the Application
 
 ### 1. Start MySQL using Docker
 
@@ -65,7 +65,7 @@ The API will be accessible at: [http://localhost:8080](http://localhost:8080)
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 ### Run all tests:
 
@@ -82,11 +82,7 @@ mvn -Dtest=FeatureFlagControllerTest test
 
 ### Generate Coverage Report
 
-```
-mvn verify
-```
-
-Open the report:
+Run the command: ```mvn verify``` and open the report:
 ```
 target/site/jacoco/index.html
 ```

@@ -1,3 +1,6 @@
+-- Create Database (featureflags)
+CREATE DATABASE featureflags;
+
 -- Create clients table
 CREATE TABLE clients (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
