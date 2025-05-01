@@ -1,6 +1,6 @@
 # Feature Flag Subscription Platform
 
-This project is a Feature Flag management API built with Spring Boot, MySQL, and JPA. It supports client-specific feature flag toggling, dependency handling, and includes unit tests written in a TDD approach.
+This project is a Feature Flag management API built with Spring Boot, MySQL, and JPA. It supports client-specific feature flag toggling, dependency handling.
 
 ## Features
 
